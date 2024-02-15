@@ -16,7 +16,7 @@ fun parse(tokens: List<Pair<Any, Any>>): Any {
 		currentTokenIndex++
 
 		if (currentTokenIndex < tokens.size) {
-			if (tokens[currentTokenIndex].first == "lparen") { // Handle calling
+			if (tokens[currentTokenIndex].first == "lparen") { // Handle calling  FIXME: Calling in a call doesn't get parsed correctly
 				currentTokenIndex++
 
 				val arguments: MutableList<MutableList<Pair<Any, Any>>> =
