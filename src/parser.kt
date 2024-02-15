@@ -1,12 +1,18 @@
-fun parse(tokens: List<Pair<String, String>>): Any {
+fun parse(tokens: List<Pair<Any, Any>>, raiseFunc: (Any, String) -> Unit): Any {
 	val ast: MutableMap<String, Any> = mutableMapOf()
-	var currentNodeIndex = 0
+	var currentNodeIndex = -1
 
 	// Returns: Pair<String, Pair<String, String>> or Pair<String, Int>
 	fun parseExpression(startIndex: Int): Any {
 		var currentTokenIndex = startIndex
 
+		try {
+			tokens[currentTokenIndex]
+		} catch (e: IndexOutOfBoundsException) {
+			raiseFunc("Excepted a value", "SyntaxError")
+		}
 		val leftOperand = "token" to tokens[currentTokenIndex]
+
 		currentTokenIndex++
 
 		if (currentTokenIndex < tokens.size) {
@@ -30,12 +36,22 @@ fun parse(tokens: List<Pair<String, String>>): Any {
 					}
 					currentTokenIndex++
 				}
-				// TODO: parse each argument, using 'for loop' then calling 'parse'
+				// TO-DO COMPLETE: parse each argument, using 'for loop' then calling 'parse' function. NOT 'parseExpression'.
+				val parsedArguments: MutableList<Any> = mutableListOf()
+				for (argument in arguments) {
+					val parsedArgument = parse(argument, raiseFunc)
+					parsedArguments += parsedArgument
+				}
+				currentNodeIndex++
 				ast[currentNodeIndex.toString()] = mapOf(
 					"call" to leftOperand,
-					"args" to arguments
+					"args" to parsedArguments
 				)
-			} else { // Handle expression
+				// TODO: finish parsing after parsing a Call.
+			} else if (leftOperand.first == "func") {
+				println("AGGHHHH")
+			}
+			else { // Handle expression
 				val operator = "token" to tokens[currentTokenIndex]
 				currentTokenIndex++
 				val rightOperand = parseExpression(currentTokenIndex)
