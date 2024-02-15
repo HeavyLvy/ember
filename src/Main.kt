@@ -1,15 +1,16 @@
 fun main() {
     val code = """
-    name = "John Doe"
-    age = 28
-    height = 6.5
+    print = "Hello, World"
+    result = print(34 + 5, 12)
     """.trimIndent()
     for ((i, line) in code.split("\n").withIndex()) {
         if (line != "") { // Skip empty lines
-            println("$i: $line")
+            println("\n$i: $line")
             val tokens = lex(line)
+//            println(tokens)
             val ast = parse(tokens)
-            println(ast)
+//            println(ast)
+            println("\tTOKENS: $tokens\n\tAST: $ast")
         }
     }
 }
