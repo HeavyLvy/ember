@@ -1,4 +1,4 @@
-fun parse(tokens: List<Pair<Any, Any>>, raiseFunc: (Any, String) -> Unit): Any {
+fun parse(tokens: List<Pair<Any, Any>>): Any {
 	val ast: MutableMap<String, Any> = mutableMapOf()
 	var currentNodeIndex = -1
 
@@ -9,7 +9,7 @@ fun parse(tokens: List<Pair<Any, Any>>, raiseFunc: (Any, String) -> Unit): Any {
 		try {
 			tokens[currentTokenIndex]
 		} catch (e: IndexOutOfBoundsException) {
-			raiseFunc("Excepted a value", "SyntaxError")
+			throw ParseErrorException("Excepted a value", "SyntaxError")
 		}
 		val leftOperand = "token" to tokens[currentTokenIndex]
 
@@ -39,7 +39,7 @@ fun parse(tokens: List<Pair<Any, Any>>, raiseFunc: (Any, String) -> Unit): Any {
 				// TO-DO COMPLETE: parse each argument, using 'for loop' then calling 'parse' function. NOT 'parseExpression'.
 				val parsedArguments: MutableList<Any> = mutableListOf()
 				for (argument in arguments) {
-					val parsedArgument = parse(argument, raiseFunc)
+					val parsedArgument = parse(argument)
 					parsedArguments += parsedArgument
 				}
 				currentNodeIndex++
