@@ -1,7 +1,8 @@
 fun main() {
 	val code = """
-    message = 'Hello, World
-	print(message + '👋')
+	print(1, call(5+2), 'why is the command being ignored?')
+	x = print(call("arg1", 'arg2' + 'arg2 extension', anotherCall('sumarg') + 'hmmm'))
+	call() + 1
     """.trimIndent()
 	val lines = code.split("\n")
 	var lineNum = 0
@@ -12,8 +13,8 @@ fun main() {
 				println("\n$i: \"$line\"")
 
 				val tokens = lex(line)
-				val ast = parse(tokens)
-
+				val ast: MutableMap<String, Any> = parse(tokens) as MutableMap<String, Any> // no types conversion is ever done, ima cry 😭
+//				println("\t${ast["0"]}")
 				println("\tTOKENS: $tokens\n\tAST: $ast")
 			}
 		}
